@@ -60,7 +60,7 @@ return array(
         
         'Sina' => array(
             'APP_KEY' => 'xxx',//You app id from you App
-            'APP_SERCET' => '8da45bfadfc9ff1bad9c8c5c7d6c8692',
+            'APP_SERCET' => '',
             'CALL_BACK' => '', //blank means it will call back to where you call login() function
         ),
     ),
