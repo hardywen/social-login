@@ -1,6 +1,9 @@
 {
     "name": "hardywen/social-login",
-    "description": "",
+    "type": "library",
+    "description": "Use QQ or Sina Weibo login",
+    "keywords": ["Laravel","QQ Login", "Sina Login", "Social Login", "php"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Hardy Wen",
