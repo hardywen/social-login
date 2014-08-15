@@ -10,7 +10,7 @@ class SocialLogin {
 
     public function consumer($serviceName) {
 
-        $serviceClass = "\\Hardy\\SocialLogin\\Services\\$serviceName";
+        $serviceClass = "\\Hardywen\\SocialLogin\\Services\\$serviceName";
         $this->serviceInstance = new $serviceClass($serviceName); //实例化服务
         return $this->serviceInstance;
     }

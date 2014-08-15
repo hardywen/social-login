@@ -134,7 +134,7 @@ class Sina extends BaseService {
         if (Request::get('state') == $this->state) { //csrf
             $params = array();
             $params['client_id'] = $this->appid;
-            $params['client_secret'] = $this->appsecret;
+            $params['client_secret'] = $this->appkey;
             $params['grant_type'] = 'authorization_code';
             $params['code'] = Request::get('code');
             $params['redirect_uri'] = $this->callback;
@@ -154,7 +154,31 @@ class Sina extends BaseService {
         return $this->accessToken;
     }
 
+    public function getUserInfo() {
+
+        $params = array();
+        $params['source'] = $this->appid;
+        $params['access_token'] = $this->accessToken;
+        $params['uid'] = $this->uid;
+
+        $response = $this->oAuthRequest("users/show", 'GET', $params);
+        $user = json_decode($response, true);
+
+        return $user;
+    }
+
     //从微博SKD中复制过来的涵数
+
+    /**
+     * @ignore
+     */
+    protected function id_format(&$id) {
+        if (is_float($id)) {
+            $id = number_format($id, 0, '', '');
+        } elseif (is_string($id)) {
+            $id = trim($id);
+        }
+    }
 
     /**
      * Set API URLS
@@ -219,7 +243,7 @@ class Sina extends BaseService {
         curl_setopt($ci, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ci, CURLOPT_ENCODING, "");
         curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, $this->ssl_verifypeer);
-        curl_setopt($ci, CURLOPT_SSL_VERIFYHOST, 1);
+        curl_setopt($ci, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ci, CURLOPT_HEADERFUNCTION, array($this, 'getHeader'));
         curl_setopt($ci, CURLOPT_HEADER, FALSE);
 
@@ -276,6 +300,22 @@ class Sina extends BaseService {
         }
         curl_close($ci);
         return $response;
+    }
+
+    /**
+     * Get the header info to store.
+     *
+     * @return int
+     * @ignore
+     */
+    function getHeader($ch, $header) {
+        $i = strpos($header, ':');
+        if (!empty($i)) {
+            $key = str_replace('-', '_', strtolower(substr($header, 0, $i)));
+            $value = trim(substr($header, $i + 2));
+            $this->http_header[$key] = $value;
+        }
+        return strlen($header);
     }
 
 }
