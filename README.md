@@ -6,34 +6,85 @@ Sina and QQ login
 
 Install:
 
-1. Add   "hardywen/social-login": "dev-master"   to composer.json
+1.Add hardywen/social-login to composer.json
+```
+"require": {
+  "hardywen/social-login": "dev-master"
+}
+```
 
-2.Composer run: composer update 
+2.Use composer to install this package.
 
-3.Artisan run : php artisan config:publish hardywen/social-login
+```
+$ composer update
+```
 
-4.Add  'Hardywen\SocialLogin\SocialLoginServiceProvider' to providers array in app/config/app.php
+3.Publish the config files.
+```
+$ php artisan config:publish hardywen/social-login
+```
 
-5. Add an alias to aliases array in app/config/app.php like : 'SocialLogin'     =>'Hardywen\SocialLogin\Facade\SocialLogin',
+### Registering the Package
+
+Register the service provider within the ```providers``` array found in ```app/config/app.php```:
+```php
+'providers' => array(
+	// ...
+	
+	'Hardywen\SocialLogin\SocialLoginServiceProvider'
+)
+```
+
+Add an alias within the ```aliases``` array found in ```app/config/app.php```:
+```php
+'aliases' => array(
+	// ...
+	
+	'SocialLogin' =>'Hardywen\SocialLogin\Facade\SocialLogin',
+)
+```
+
+###Config
+
+```php
+return array(
+    //services APPID  APPKEY  and so on
+
+    'services' => array(
+        'QQ' => array(
+            'APP_ID' => 'xxxx', //You app id from you App
+            'APP_KEY' => 'xxxx',
+            'CALL_BACK' => '', //blank means it will call back to where you call login() function
+            'SCOPE' => '',
+        ),
+        
+        'Sina' => array(
+            'APP_KEY' => 'xxx',//You app id from you App
+            'APP_SERCET' => '8da45bfadfc9ff1bad9c8c5c7d6c8692',
+            'CALL_BACK' => '', //blank means it will call back to where you call login() function
+        ),
+    ),
+);
+```
 
 
-Usage:
+###Usage
 
 login:
-
+```php
 SocialLogin::consumer('QQ')->login(); // call this function to jump to QQ login page.
+```
 
 And after you login QQ, it will return to the callback url with "code" and "state" params
 
-Then
-
-in your callbak page call this function :  
-
+Then in your callbak page call this function :  
+```php
 SocialLogin::consumer('QQ')->callBack(); //This will get access_token and opend_id for you.
+```
 
 Now you can use 
-
-SocialLogin::consumer('QQ')->getUserInfo()  
-
+```php
+SocialLogin::consumer('QQ')->getUserInfo();
+```
 to get ther login user info.
 
