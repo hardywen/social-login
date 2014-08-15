@@ -1,0 +1,23 @@
+{
+    "name": "hardywen/social-login",
+    "description": "",
+    "authors": [
+        {
+            "name": "Hardy Wen",
+            "email": "375480616@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Hardywen\\SocialLogin\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
