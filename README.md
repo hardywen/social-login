@@ -52,14 +52,14 @@ return array(
 
     'services' => array(
         'QQ' => array(
-            'APP_ID' => 'xxxx', //You app id from you App
+            'APP_ID' => 'xxxx', //Your app id from you App
             'APP_KEY' => 'xxxx',
             'CALL_BACK' => '', //blank means it will call back to where you call login() function
             'SCOPE' => '',
         ),
         
         'Sina' => array(
-            'APP_KEY' => 'xxx',//You app id from you App
+            'APP_KEY' => 'xxx',//Your app id from you App
             'APP_SERCET' => '',
             'CALL_BACK' => '', //blank means it will call back to where you call login() function
         ),
@@ -86,5 +86,5 @@ Now you can use
 ```php
 SocialLogin::consumer('QQ')->getUserInfo();
 ```
-to get ther login user info.
+to get the login user info.
 
