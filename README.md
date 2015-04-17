@@ -1,3 +1,6 @@
+
+Laravel 5.0 的可以看看这个扩展（没用过，不过貌似不错的样子）。 https://github.com/liaol/socialite-cn
+
 social-login
 ============
 
