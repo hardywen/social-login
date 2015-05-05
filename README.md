@@ -1,6 +1,10 @@
 
 Laravel 5.0 的可以看看这个扩展（没用过，不过貌似不错的样子）。 https://github.com/liaol/socialite-cn
 
+
+2015-05-05更新： 将Sina和QQ的getUserInfo方法统一返回为对象格式。如果你不想改你现在的代码，你可以使用 ```  "hardywen/social-login": "v0.1"```版本。
+
+
 social-login
 ============
 
@@ -12,7 +16,7 @@ Install:
 1.Add hardywen/social-login to composer.json
 ```
 "require": {
-  "hardywen/social-login": "dev-master"
+  "hardywen/social-login": "v0.2"
 }
 ```
 
