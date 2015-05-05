@@ -9,7 +9,6 @@ class Sina extends BaseService {
 
     //下列参数从Sina SDK 中复制过来的
     /**
-      /**
      * @ignore
      */
     public $refresh_token;
@@ -162,7 +161,7 @@ class Sina extends BaseService {
         $params['uid'] = $this->uid;
 
         $response = $this->oAuthRequest("users/show", 'GET', $params);
-        $user = json_decode($response, true);
+        $user = json_decode($response);
 
         return $user;
     }
