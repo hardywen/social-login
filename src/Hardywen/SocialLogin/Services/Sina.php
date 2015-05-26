@@ -5,7 +5,8 @@ namespace Hardywen\SocialLogin\Services;
 use \Redirect;
 use \Request;
 
-class Sina extends BaseService {
+class Sina extends BaseService
+{
 
     //下列参数从Sina SDK 中复制过来的
     /**
@@ -14,7 +15,7 @@ class Sina extends BaseService {
     public $refresh_token;
 
     /**
-     * Contains the last HTTP status code returned. 
+     * Contains the last HTTP status code returned.
      *
      * @ignore
      */
@@ -96,12 +97,14 @@ class Sina extends BaseService {
      */
     public static $boundary = '';
 
-    function __construct($serviceName) {
+    function __construct($serviceName)
+    {
         parent::__construct($serviceName);
         $this->setConfig($this->config);
     }
 
-    public function login() {
+    public function login()
+    {
 
         $this->setState();
 
@@ -114,18 +117,21 @@ class Sina extends BaseService {
         return Redirect::to($this->authorizeURL() . "?" . http_build_query($params));
     }
 
-    private function setConfig($config) {
+    private function setConfig($config)
+    {
 
         $this->appid = $this->config['APP_KEY'];
         $this->appkey = $this->config['APP_SERCET'];
         $this->callback = $this->config['CALL_BACK'] ? $this->config['CALL_BACK'] : Request::getUri();
     }
 
-    public function callBack() {
+    public function callBack()
+    {
         $this->getAccessToken();
     }
 
-    public function getAccessToken() {
+    public function getAccessToken()
+    {
         if ($this->accessToken) {
             return $this->accessToken;
         }
@@ -153,7 +159,8 @@ class Sina extends BaseService {
         return $this->accessToken;
     }
 
-    public function getUserInfo() {
+    public function getUserInfo()
+    {
 
         $params = array();
         $params['source'] = $this->appid;
@@ -171,7 +178,8 @@ class Sina extends BaseService {
     /**
      * @ignore
      */
-    protected function id_format(&$id) {
+    protected function id_format(&$id)
+    {
         if (is_float($id)) {
             $id = number_format($id, 0, '', '');
         } elseif (is_string($id)) {
@@ -186,14 +194,16 @@ class Sina extends BaseService {
     /**
      * @ignore
      */
-    private function accessTokenURL() {
+    private function accessTokenURL()
+    {
         return 'https://api.weibo.com/oauth2/access_token';
     }
 
     /**
      * @ignore
      */
-    private function authorizeURL() {
+    private function authorizeURL()
+    {
         return 'https://api.weibo.com/oauth2/authorize';
     }
 
@@ -203,7 +213,8 @@ class Sina extends BaseService {
      * @return string
      * @ignore
      */
-    private function oAuthRequest($url, $method, $parameters, $multi = false) {
+    private function oAuthRequest($url, $method, $parameters, $multi = false)
+    {
 
         if (strrpos($url, 'http://') !== 0 && strrpos($url, 'https://') !== 0) {
             $url = "{$this->host}{$url}.{$this->format}";
@@ -231,7 +242,8 @@ class Sina extends BaseService {
      * @return string API results
      * @ignore
      */
-    private function http($url, $method, $postfields = NULL, $headers = array()) {
+    private function http($url, $method, $postfields = NULL, $headers = array())
+    {
         $this->http_info = array();
         $ci = curl_init();
         /* Curl settings */
@@ -307,7 +319,8 @@ class Sina extends BaseService {
      * @return int
      * @ignore
      */
-    function getHeader($ch, $header) {
+    function getHeader($ch, $header)
+    {
         $i = strpos($header, ':');
         if (!empty($i)) {
             $key = str_replace('-', '_', strtolower(substr($header, 0, $i)));

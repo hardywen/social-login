@@ -2,11 +2,11 @@
 
 namespace Hardywen\SocialLogin\Services;
 
-use \Config;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Session;
 
-session_start();
-
-class BaseService {
+class BaseService
+{
 
     public $appid; //应用分配的APP_ID, QQ的是 APP_ID, Sina的是APP_KEY
     public $appkey; //应用分配的APP_KEY, QQ的是APP_KEY, Sina的是 APP_SERCET
@@ -18,42 +18,43 @@ class BaseService {
     public $accessToken; //登录成功后获取的Token值,需要保存至Session
     public $uid; //用户唯标识id. （sina的是uid, qq的是openid, 统一保存于 $uid)
 
-    function __construct($serviceName) {
+    function __construct($serviceName)
+    {
         $this->serviceName = $serviceName;
         $this->config = $this->getConfig($serviceName);
-
-        $this->uid = $this->getSession('social_login_uid');
-        $this->state = $this->getSession('social_login_state');
-        $this->accessToken = $this->getSession('social_login_access_token');
-    }
-
-    private function getSession($key) {
-        return isset($_SESSION[$this->serviceName][$key]) ? $_SESSION[$this->serviceName][$key] : null;
+        $this->uid = Session::get("social_login.{$this->serviceName}.uid", null);
+        $this->state = Session::get("social_login.{$this->serviceName}.state", null);
+        $this->accessToken = Session::get("social_login.{$this->serviceName}.access_token", null);
     }
 
     //获得服务的配置
-    private function getConfig($serviceName) {
+    private function getConfig($serviceName)
+    {
 
         return Config::get("social-login::services.$serviceName");
     }
 
     //保存state到session
-    public function setState() {
+    public function setState()
+    {
         $state = md5(uniqid(rand(), TRUE));
         $this->state = $state;
-        $_SESSION[$this->serviceName]['social_login_state'] = $state;
+        Session::push("social_login.{$this->serviceName}.state", $state);
     }
 
     //保存access token到Session
-
-    public function saveAccessToken($accessToken) {
+    public function saveAccessToken($accessToken)
+    {
         $this->accessToken = $accessToken;
-        $_SESSION[$this->serviceName]['social_login_access_token'] = $accessToken;
+        Session::push("social_login.{$this->serviceName}.access_token", $accessToken);
     }
 
-    public function saveUid($uid) {
+    //保存uid到 Session
+    public function saveUid($uid)
+    {
         $this->uid = $uid;
-        $_SESSION[$this->serviceName]['social_login_uid'] = $uid;
+        Session::push("social_login.{$this->serviceName}.uid", $uid);
     }
+
 
 }

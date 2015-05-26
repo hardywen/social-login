@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Facade;
 
-class SocialLogin extends Facade 
+class SocialLogin extends Facade
 {
 
     /**
@@ -10,6 +10,9 @@ class SocialLogin extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'social-login'; }
+    protected static function getFacadeAccessor()
+    {
+        return 'social-login';
+    }
 
 }

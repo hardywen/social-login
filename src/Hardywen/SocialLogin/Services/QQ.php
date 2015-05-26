@@ -5,26 +5,30 @@ namespace Hardywen\SocialLogin\Services;
 use \Redirect;
 use \Request;
 
-class QQ extends BaseService {
+class QQ extends BaseService
+{
 
-    function __construct($serviceName) {
+    function __construct($serviceName)
+    {
         parent::__construct($serviceName);
         $this->setConfig($this->config);
     }
 
-    public function login() {
+    public function login()
+    {
 
         $this->setState();
 
         $login_url = "https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id="
-                . $this->appid . "&redirect_uri=" . urlencode($this->callback)
-                . "&state=" . $this->state
-                . "&scope=" . $this->scope;
+            . $this->appid . "&redirect_uri=" . urlencode($this->callback)
+            . "&state=" . $this->state
+            . "&scope=" . $this->scope;
 
         return Redirect::to($login_url); //跳转到QQ登录页面登录
     }
 
-    private function setConfig($config) {
+    private function setConfig($config)
+    {
 
         $this->appid = $this->config['APP_ID'];
         $this->appkey = $this->config['APP_KEY'];
@@ -33,13 +37,15 @@ class QQ extends BaseService {
     }
 
     // 一次性获得 access token 和 uid
-    public function callBack() {
+    public function callBack()
+    {
         if ($this->getAccessToken()) {
             $this->getOpenId();
         }
     }
 
-    public function getAccessToken() {
+    public function getAccessToken()
+    {
 
         if ($this->accessToken) {
             return $this->accessToken;
@@ -47,8 +53,8 @@ class QQ extends BaseService {
 
         if (Request::get('state') == $this->state) { //csrf
             $token_url = "https://graph.qq.com/oauth2.0/token?grant_type=authorization_code&"
-                    . "client_id=" . $this->appid . "&redirect_uri=" . urlencode($this->callback)
-                    . "&client_secret=" . $this->appkey . "&code=" . Request::get('code');
+                . "client_id=" . $this->appid . "&redirect_uri=" . urlencode($this->callback)
+                . "&client_secret=" . $this->appkey . "&code=" . Request::get('code');
 
             $response = file_get_contents($token_url);
             if (strpos($response, "callback") !== false) {
@@ -74,7 +80,8 @@ class QQ extends BaseService {
         return $this->accessToken;
     }
 
-    public function getOpenId() {
+    public function getOpenId()
+    {
 
         if ($this->uid) {
             return $this->uid;
@@ -101,12 +108,13 @@ class QQ extends BaseService {
         return $this->uid;
     }
 
-    public function getUserInfo() {
+    public function getUserInfo()
+    {
 
         $graph_url = "https://graph.qq.com/user/get_user_info"
-                . "?access_token=" . $this->accessToken
-                . "&oauth_consumer_key=" . $this->appid
-                . "&openid=" . $this->uid;
+            . "?access_token=" . $this->accessToken
+            . "&oauth_consumer_key=" . $this->appid
+            . "&openid=" . $this->uid;
 
         $str = file_get_contents($graph_url);
 
@@ -116,12 +124,13 @@ class QQ extends BaseService {
     }
 
     //通用的 get 方式接口
-    public function getInterface($inteface, $params = array()) {
+    public function getInterface($inteface, $params = array())
+    {
         $graph_url = "https://graph.qq.com/" . $inteface
-                . "?access_token=" . $this->accessToken
-                . "&oauth_consumer_key=" . $this->appid
-                . "&openid=" . $this->openid
-                . http_build_query($params);
+            . "?access_token=" . $this->accessToken
+            . "&oauth_consumer_key=" . $this->appid
+            . "&openid=" . $this->openid
+            . http_build_query($params);
 
         $str = file_get_contents($graph_url);
 
