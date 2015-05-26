@@ -30,7 +30,6 @@ class BaseService
     //获得服务的配置
     private function getConfig($serviceName)
     {
-
         return Config::get("social-login::services.$serviceName");
     }
 
