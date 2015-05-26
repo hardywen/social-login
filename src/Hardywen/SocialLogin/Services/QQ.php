@@ -11,7 +11,7 @@ class QQ extends BaseService
     function __construct($serviceName)
     {
         parent::__construct($serviceName);
-        $this->setConfig($this->config);
+        $this->setConfig();
     }
 
     public function login()
@@ -27,7 +27,7 @@ class QQ extends BaseService
         return Redirect::to($login_url); //跳转到QQ登录页面登录
     }
 
-    private function setConfig($config)
+    private function setConfig()
     {
 
         $this->appid = $this->config['APP_ID'];

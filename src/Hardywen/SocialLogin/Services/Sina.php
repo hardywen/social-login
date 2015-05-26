@@ -100,7 +100,7 @@ class Sina extends BaseService
     function __construct($serviceName)
     {
         parent::__construct($serviceName);
-        $this->setConfig($this->config);
+        $this->setConfig();
     }
 
     public function login()
@@ -117,7 +117,7 @@ class Sina extends BaseService
         return Redirect::to($this->authorizeURL() . "?" . http_build_query($params));
     }
 
-    private function setConfig($config)
+    private function setConfig()
     {
 
         $this->appid = $this->config['APP_KEY'];

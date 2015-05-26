@@ -38,21 +38,21 @@ class BaseService
     {
         $state = md5(uniqid(rand(), TRUE));
         $this->state = $state;
-        Session::push("social_login.{$this->serviceName}.state", $state);
+        Session::put("social_login.{$this->serviceName}.state", $state);
     }
 
     //保存access token到Session
     public function saveAccessToken($accessToken)
     {
         $this->accessToken = $accessToken;
-        Session::push("social_login.{$this->serviceName}.access_token", $accessToken);
+        Session::put("social_login.{$this->serviceName}.access_token", $accessToken);
     }
 
     //保存uid到 Session
     public function saveUid($uid)
     {
         $this->uid = $uid;
-        Session::push("social_login.{$this->serviceName}.uid", $uid);
+        Session::put("social_login.{$this->serviceName}.uid", $uid);
     }
 
 
