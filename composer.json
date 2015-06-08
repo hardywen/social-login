@@ -16,7 +16,6 @@
     },
     "autoload": {
         "classmap": [
-            "src/migrations"
         ],
         "psr-0": {
             "Hardywen\\SocialLogin\\": "src/"
